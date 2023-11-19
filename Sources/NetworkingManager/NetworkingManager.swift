@@ -11,12 +11,11 @@ public class NetworkingManager {
         
         guard let url = URL(string: urlString) else { throw GHError.invalidURL }
         
-        // Perform the network request asynchronously
         let (data, response) = try await URLSession.shared.data(from: url)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
             throw GHError.invalidResponse
         }
-        // Decode Data
+
         do {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
