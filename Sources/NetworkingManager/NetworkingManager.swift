@@ -7,7 +7,7 @@ public class NetworkingManager {
         
     public init() {}
     
-    public func fetchData<T: Decodable>(fromURL urlString: String) async throws -> T? {
+    public func fetchData<T: Decodable>(fromURL urlString: String) async throws -> T {
         
         guard let url = URL(string: urlString) else { throw GHError.invalidURL }
         
