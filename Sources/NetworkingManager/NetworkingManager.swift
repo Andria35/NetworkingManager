@@ -7,17 +7,24 @@ public class NetworkingManager {
         
     public init() {}
     
-    func fetchData(fromURL urlString: String) async throws -> Data {
+    func fetchData<T: Decodable>(fromURL urlString: String) async throws -> T? {
         
         guard let url = URL(string: urlString) else { throw GHError.invalidURL }
         
         // Perform the network request asynchronously
         let (data, response) = try await URLSession.shared.data(from: url)
-        
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
             throw GHError.invalidResponse
         }
-        return data
+        // Decode Data
+        do {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let object = try decoder.decode(T.self, from: data)
+            return object
+        } catch {
+            throw GHError.invalidData
+        }
     }
 }
 
