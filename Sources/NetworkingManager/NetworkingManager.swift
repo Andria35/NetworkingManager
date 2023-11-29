@@ -3,7 +3,7 @@
 import Foundation
 
 @available(iOS 13.0.0, *)
-public class NetworkingManager {
+public actor NetworkingManager {
         
     public init() {}
     
